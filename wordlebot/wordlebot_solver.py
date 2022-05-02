@@ -59,7 +59,7 @@ class Wordle():
             # maybe need to manually enter feedback
             if not feedback:
                 #TODO: Why is a list still required?
-                feedback = list(input("Please enter the wordle feedback provided"))
+                feedback = input("Please enter the wordle feedback provided")
                 #raise ValueError('Please provide feedback')
 
         print(feedback)
@@ -77,8 +77,7 @@ class Wordle():
         if self.verbose:
             print(f'{guess} --> {feedback}: {len(self.solutions)} solutions remaining.')
 
-        if feedback == ['G', 'G', 'G', 'G', 'G']:
-            #TODO: Why is a list still required
+        if feedback == 'GGGGG':
             self.solved = True
             if self.verbose:
                 print(f'{self.guesses} --> {self.solution} in {self.step} steps')
@@ -138,5 +137,5 @@ def play_game(input_word, solution):
 
 
 if __name__ == '__main__':
-    play_game("trace", "forgo")
+    play_game("trace", None)
 

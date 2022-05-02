@@ -150,7 +150,7 @@ def correct_hint_colours_for_duplicates(dict_of_multiple_letters_position, lette
 
 
 def return_corrected_wordle_clue(entered_word, word_to_guess):
-    simple_wordle_hint = return_wordle_colours_list(entered_word, word_to_guess)
+    simple_wordle_hint = return_wordle_colours_str(entered_word, word_to_guess)
     duplicates_wordle_hint = simple_wordle_hint #simple_wordle_hint.copy()
     list_of_multiple_letters = identify_duplicate_letters(entered_word)
     dict_of_multiple_letters_position = get_position_of_multiple_letters_opt(entered_word, list_of_multiple_letters)
