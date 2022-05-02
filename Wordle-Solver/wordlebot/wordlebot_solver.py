@@ -136,6 +136,7 @@ def play_game(input_word, solution):
     return game.records()
 
 
+
 if __name__ == '__main__':
     play_game("trace", "forgo")
 
