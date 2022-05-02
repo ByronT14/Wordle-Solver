@@ -58,6 +58,15 @@ def test_time_compute_wordle_colours(all_words, potential_words):
     pass
 
 
+def test_feedback(guess, word_to_guess,  potential_words):
+    start_time = time.time()
+    feedback = wf.return_corrected_wordle_clue(guess, word_to_guess)
+    solutions = [i for i in potential_words if
+                      wf.return_corrected_wordle_clue(guess, i) == feedback]
+    duration = time.time() - start_time
+    print(f'{len(potential_words)} guesses for {len(potential_words)} solutions takes {duration}')
+
+
 def comp_duplicates(all_words):
     start_time = time.time()
     for entered_word in all_words:
@@ -85,14 +94,16 @@ if __name__ == "__main__":
     secret_word = "olive"
 
     test_guesses = total_guesses # ["metes"] #
-    test_solutions = potential_solutions[:200]
+    test_solutions = potential_solutions
     #test_guesses = [i for i in total_guesses[:1000] if wf.identify_duplicate_letters(i)]
     print(test_guesses)
 
     # comp_duplicates(test_guesses)
-    test_time_compute_wordle_colours_simple(test_guesses, test_solutions)
-    test_time_return_corrected_wordle_clue(test_guesses, test_solutions)
-    test_time_compute_wordle_colours(test_guesses, test_solutions)
+    # test_time_compute_wordle_colours_simple(test_guesses, test_solutions)
+    # test_time_return_corrected_wordle_clue(test_guesses, test_solutions)
+    # test_time_compute_wordle_colours(test_guesses, test_solutions)
+
+    test_feedback("trace","story", test_solutions)
 
 
 
