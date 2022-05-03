@@ -280,6 +280,13 @@ def create_guess_df(starting_word, words_left, word_groups, possible_solution):
     return df
 
 
+def create_guess_list(starting_word, words_left, word_groups, possible_solution):
+    NumberOfGroups = len(word_groups)
+    WordsPerGroup = sum(word_groups.values()) / len(word_groups)
+    output_list = [starting_word, words_left, NumberOfGroups, WordsPerGroup, possible_solution]
+    return output_list
+
+
 def eliminate_solutions_from_corpus(word_dict, hint):
     word_corpus = list()
     for key in word_dict:
