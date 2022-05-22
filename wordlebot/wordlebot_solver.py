@@ -7,7 +7,7 @@ import time
 
 from wordle_solver.wordle_functions import (compute_wordle_colours_for_one_word, eliminate_solutions_from_corpus,
                                             return_corrected_wordle_colours_list, return_corrected_wordle_clue,
-                                            return_wordle_colours_list, sum_groups_of_hints,
+                                            return_wordle_colours_list, sum_groups_of_hints, create_guess_list,
                                             average_solutions_left_after_guess, is_word_in_list, create_guess_df)
 
 from wordle_solver import file_imports
@@ -30,6 +30,25 @@ def test_word_guesser(all_words, potential_words):
         first_guess_df = pd.concat([first_guess_df, guess_df])
     first_guess_df = first_guess_df.sort_values(by=["NumberOfGroups", "PotentialSolution"],
                                                 ascending=[False, False])
+    return first_guess_df
+
+
+def test_word_guesser_efficient(all_words, potential_words):
+    total_guess_list = []
+    column_names = ["Guess", "AverageRemainingSolutions", "NumberOfGroups", "WordsPerGroup", "PotentialSolution"]
+    for i in all_words:  # ["raise","crane"]: #
+        guess_results = compute_wordle_colours_for_one_word(i, potential_words)
+        sum_of_groups = sum_groups_of_hints(guess_results)
+        expected_words_left = average_solutions_left_after_guess(sum_of_groups)
+        potential_solution = is_word_in_list(i, potential_words)
+        # create list of results
+        guess_list = create_guess_list(i, expected_words_left, sum_of_groups, potential_solution)
+        # append to list of list of results
+        total_guess_list.append(guess_list)
+
+    # create dataframe from list of lists
+    first_guess_df = pd.DataFrame(total_guess_list, columns=column_names)
+    first_guess_df = first_guess_df.sort_values(by=["NumberOfGroups", "PotentialSolution"], ascending=[False, False])
     return first_guess_df
 
 
@@ -58,7 +77,6 @@ class Wordle():
         else:
             # maybe need to manually enter feedback
             if not feedback:
-                #TODO: Why is a list still required?
                 feedback = input("Please enter the wordle feedback provided")
                 #raise ValueError('Please provide feedback')
 
@@ -84,9 +102,9 @@ class Wordle():
 
     def calculate_next_guess(self):
         if len(self.solutions) == 1:
-            guess_priority_df = test_word_guesser(self.solutions, self.solutions)
+            guess_priority_df = test_word_guesser_efficient(self.solutions, self.solutions)
         else:
-            guess_priority_df = test_word_guesser(self.candidates, self.solutions)
+            guess_priority_df = test_word_guesser_efficient(self.candidates, self.solutions)
         return guess_priority_df
 
     def records(self):
@@ -137,5 +155,5 @@ def play_game(input_word, solution):
 
 
 if __name__ == '__main__':
-    play_game("trace", None)
+    play_game("trace", "homer")
 
