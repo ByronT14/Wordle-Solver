@@ -155,5 +155,5 @@ def play_game(input_word, solution):
 
 
 if __name__ == '__main__':
-    play_game("trace", None)
+    play_game("trace", "homer")
 
